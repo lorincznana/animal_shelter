@@ -1,0 +1,18 @@
+{% extends 'main_page.html' %}
+{% block content %}
+
+<h2>Bejelentkezés</h2>
+
+<form method="POST">
+    <label>Felhasználónév:</label><br><br>
+    <input type="text" name="username" required><br><br>
+
+    <label>Jelszó:</label><br><br>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Bejelentkezés</button>
+</form>
+
+
+
+{% endblock %}
