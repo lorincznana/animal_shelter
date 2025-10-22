@@ -60,7 +60,7 @@ class Adoption(db.Model):
     status = db.Column(db.Enum('pending', 'approved', 'rejected', name='adoption_status'))
     notes = db.Column(db.String(500))
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))

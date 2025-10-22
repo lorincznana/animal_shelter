@@ -7,16 +7,27 @@
   </head>
   <body>
     <header>
-      <h1>Kisállatok</h1>
+        {% if shelter_info %}
+            <h1>{{ shelter_info.name }}</h1>
+        {% else %}
+            <h1>Állatotthon neve</h1>
+        {% endif %}
       <nav>
-        <a href="{{ url_for('list_dogs') }}">Kutyáink</a>
-        <a href="{{ url_for('list_cats') }}">Macskáink</a>
+        <a href="{{ url_for('list_animals') }}">Kisállataink</a>
+          <a href="{{ url_for('login') }}">Bejelentkezés</a>
+          <a href="{{ url_for('register') }}">Regisztráció</a>
+          <a href="{{ url_for('about_page') }}">Rólunk</a>
+          <a href="{{ url_for('main_page') }}">Főoldal</a>
+
       </nav>
     </header>
   <main>
-    {% if current_user.is_authenticated %
+    {% block content %}{% endblock %}
 
   </main>
-
+    <footer>
+        <hr>
+        <p>&copy; 2025 Remény Állatotthon</p>
+    </footer>
   </body>
 </html>

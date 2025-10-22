@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 
-#app.config['SECRET_KEY'] = 'K1c51_NYu5Z1_67$'
+app.config['SECRET_KEY'] = 'K1c51_NYu5Z1_67$'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'library.db')}"
@@ -17,13 +17,63 @@ db.init_app(app)
 
 from models import Animal, MedicalRecord, Gallery, Adopter, Adoption, ShelterInfo, User
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+
+
 @app.route('/')
 def main_page():
-    return render_template('main_page.html')
+    shelter_info = ShelterInfo.query.first()
+    return render_template('main_page.html', shelter_info=shelter_info)
 @app.route('/animals', methods=['GET', 'POST'])
-def list_dogs():
+def list_animals():
     animals = Animal.query.all()
     return render_template('animals.html', animals=animals)
+
+"""
+@app.route('/animals/add', methods=['GET', 'POST'])
+def add_animal():
+    if request.method == 'POST':
+        animal_name = request.form['animal_name']
+        animal_species = request.form['animal_species']
+        animal_breed = request.form['animal_breed']
+        animal_age = request.form['animal_age']
+        animal_gender = request.form['animal_gender']
+        animal_description = request.form['animal_description']
+        animal_image = request.form['animal_image']
+        animal_available = request.form['animal_available']
+
+        new_animal = Animal(
+            animal_name=animal.name,
+            animal_species=animal.species,
+            animal_breed=animal_breed,
+            animal_age=animal_age,
+            animal_gender=animal_gender,
+            animal_description=animal_description,
+            animal_image=animal_image,
+            animal_available=animal_available,
+            animal_cre
+        )
+"""
+
+
+
+@app.context_processor
+def inject_shelter_info():
+    shelter_info = ShelterInfo.query.first()
+    return dict(shelter_info=shelter_info)
+
+@app.route('/about_page', methods=['GET', 'POST'])
+def about_page():
+    shelter_info = ShelterInfo.query.first()
+    return render_template('about_page.html', shelter_info=shelter_info)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'main_page.html' %}
+{% block content %}
 
-</body>
-</html>
+<h2>Kisállataink</h2>
+<h3>Kisállat hozzáadása</h3>
+
+{% for animal in animals %}
+    <div class="animal">
+
+        {% if animal.image_url %}
+                <img src="{{ animal.image_url }}" alt="{{ animal.name }}" width="200">
+            {% endif %}
+
+
+        <p><strong>{{ animal.name }}</strong></p>
+        <p>{{ animal.species }}</p>
+        <p>{{ animal.breed }}</p>
+        <p>{{ animal.gender }}</p>
+        <p>{{ animal.description }}</p>
+
+
+    </div>
+    <hr>
+{% endfor %}
+
+{% endblock %}
