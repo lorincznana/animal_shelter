@@ -2,13 +2,16 @@
 {% block content %}
 
 <h2>Kisállataink</h2>
+<hr>
 <h3>Kisállat hozzáadása</h3>
+
+
 
 {% for animal in animals %}
     <div class="animal">
-
+        <br>
         {% if animal.image_url %}
-                <img src="{{ animal.image_url }}" alt="{{ animal.name }}" width="200">
+                <img class= "animal_pic" src="{{ animal.image_url }}" alt="{{ animal.name }}">
             {% endif %}
 
 
@@ -20,7 +23,7 @@
 
 
     </div>
-    <hr>
+
 {% endfor %}
 
 {% endblock %}

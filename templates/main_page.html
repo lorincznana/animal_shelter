@@ -2,32 +2,36 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Remény Állatotthon</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <title>{{ shelter_info.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
-    <header>
-        {% if shelter_info %}
-            <h1>{{ shelter_info.name }}</h1>
-        {% else %}
-            <h1>Állatotthon neve</h1>
-        {% endif %}
-      <nav>
-        <a href="{{ url_for('list_animals') }}">Kisállataink</a>
-          <a href="{{ url_for('login') }}">Bejelentkezés</a>
-          <a href="{{ url_for('register') }}">Regisztráció</a>
-          <a href="{{ url_for('about_page') }}">Rólunk</a>
-          <a href="{{ url_for('main_page') }}">Főoldal</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <h1 class="logo">
+              {% if shelter_info %}
+                {{ shelter_info.name }}
+              {% else %}
+                Állatotthon
+              {% endif %}
+            </h1>
+            <nav>
+                <a href="{{ url_for('list_animals') }}">Kisállataink</a>
+                <a href="{{ url_for('login') }}">Bejelentkezés</a>
+                <a href="{{ url_for('register') }}">Regisztráció</a>
+                <a href="{{ url_for('about_page') }}">Rólunk</a>
+                <a href="{{ url_for('main_page') }}">Főoldal</a>
 
-      </nav>
+            </nav>
+        </div>
     </header>
-  <main>
+  <main class="container">
     {% block content %}{% endblock %}
 
   </main>
-    <footer>
+    <footer class ="site-footer">
         <hr>
-        <p>&copy; 2025 Remény Állatotthon</p>
+        <p>&copy; 2025 {{ shelter_info.name }}</p>
     </footer>
   </body>
 </html>
