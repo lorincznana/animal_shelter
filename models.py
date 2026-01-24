@@ -66,7 +66,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50))
     email = db.Column(db.String(100))
     password = db.Column(db.String(200))
-    role = db.Column(db.Enum('admin', 'staff', 'volunteer', name='user_roles'))
+    role = db.Column(db.Enum('admin', 'staff', 'volunteer', 'user', name='user_roles'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class ShelterInfo(db.Model):
