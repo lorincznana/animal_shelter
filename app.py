@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
+from functools import wraps
 from models import db
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -23,6 +23,21 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
+def roles_required(*roles):
+    def wrapper(func):
+        @wraps(func)
+        def decorated_func(*args, **kwargs):
+            if not current_user.is_authenticated:
+                flash("Jelentkezz be a továbbiakhoz.", "warning")
+                return redirect(url_for('login'))
+            if not current_user.role or current_user.role not in roles:
+                flash("Nincs jogosultságod ehhez.", "warning")
+                return redirect(url_for('index'))
+            return func(*args, **kwargs)
+        return decorated_func
+    return wrapper
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -34,37 +49,74 @@ def load_user(user_id):
 def main_page():
     shelter_info = ShelterInfo.query.first()
     return render_template('main_page.html', shelter_info=shelter_info)
-@app.route('/animals', methods=['GET', 'POST'])
+
+@app.route('/animals', methods=['GET'])
 def list_animals():
     animals = Animal.query.all()
     return render_template('animals.html', animals=animals)
 
-"""
+
+
+
 @app.route('/animals/add', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin', 'staff')
 def add_animal():
     if request.method == 'POST':
-        animal_name = request.form['animal_name']
-        animal_species = request.form['animal_species']
-        animal_breed = request.form['animal_breed']
-        animal_age = request.form['animal_age']
-        animal_gender = request.form['animal_gender']
-        animal_description = request.form['animal_description']
-        animal_image = request.form['animal_image']
-        animal_available = request.form['animal_available']
+        animal_name = request.form['name']
+        animal_species = request.form['species']
+        animal_breed = request.form.get('breed')
+        animal_age = request.form.get('age')
+        animal_gender = request.form['gender']
+        animal_description = request.form.get('description')
+        animal_image_url = request.form.get('image_url')
+        animal_available = request.form.get('available') == 'on'
+
+        # age string → int (ha üres, None)
+        age = int(animal_age) if animal_age else None
 
         new_animal = Animal(
-            animal_name=animal.name,
-            animal_species=animal.species,
-            animal_breed=animal_breed,
-            animal_age=animal_age,
-            animal_gender=animal_gender,
-            animal_description=animal_description,
-            animal_image=animal_image,
-            animal_available=animal_available,
-            animal_cre
+            name=animal_name,
+            species=animal_species,
+            breed=animal_breed,
+            age=age,
+            gender=animal_gender,
+            description=animal_description,
+            image_url=animal_image_url,
+            available=animal_available
         )
-"""
 
+        db.session.add(new_animal)
+        db.session.commit()
+
+        flash("Kisállat sikeresen hozzáadva!", "success")
+        return redirect(url_for('list_animals'))
+
+    return render_template('add_animal.html')
+
+@app.route('/animals/edit/<int:animal_id>', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin', 'staff')
+def edit_animal(animal_id):
+    animal = Animal.query.get_or_404(animal_id)
+
+    if request.method == 'POST':
+        animal.name = request.form['name']
+        animal.species = request.form['species']
+        animal.breed = request.form.get('breed')
+        animal_age = request.form.get('age')
+        animal.age = int(animal_age) if animal_age else None
+        animal.gender = request.form['gender']
+        animal.description = request.form.get('description')
+        animal.image_url = request.form.get('image_url')
+        animal.available = request.form.get('available') == 'on'
+
+        db.session.commit()
+
+        flash("Kisállat adatai sikeresen módosítva!", "success")
+        return redirect(url_for('list_animals'))
+
+    return render_template('edit_animal.html', animal=animal)
 
 
 @app.context_processor
@@ -102,6 +154,8 @@ def register():
     return render_template('register.html')
 
 
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -127,6 +181,3 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-

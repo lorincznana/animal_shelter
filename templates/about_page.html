@@ -1,16 +1,53 @@
-{% extends 'main_page.html' %}
-{% block content %}
-<h2>Állatmenhelyünkről</h2>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Rólunk - {{ shelter_info.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+<!-- HEADER -->
+<header class="header">
+    <div class="header__logo">REMÉNY ÁLLATOTTHON</div>
+    <nav class="header__nav">
+        <a href="/" class="header__nav-link">Kezdőlap</a>
+        <a href="/animals" class="header__nav-link">Kisállataink</a>
+        <a href="/about_page" class="header__nav-link">Rólunk</a>
+        <a href="/login" class="header__nav-link">Bejelentkezés</a>
+        <a href="/register" class="header__cta-btn">Csatlakozz</a>
+    </nav>
+</header>
 
+<!-- ABOUT SECTION -->
+<section class="about">
+    <div class="about__container">
+        <h1 class="about__title">Rólunk</h1>
+        
+        <div class="about__content">
+            <h2>{{ shelter_info.name }}</h2>
+            <p>{{ shelter_info.description }}</p>
+        </div>
 
-<p>{{ shelter_info.name }}</p>
-<p>{{ shelter_info.phone }}</p>
-<p>{{ shelter_info.email }}</p>
-<p>{{ shelter_info.description }}</p>
-<p>{{ shelter_info.donation_text }}</p>
-<p>{{ shelter_info.description_number }}</p>
+        <div class="about__info">
+            <div class="about__info-item">
+                <h3>Telefonszám</h3>
+                <p>{{ shelter_info.phone }}</p>
+            </div>
+            <div class="about__info-item">
+                <h3>Email</h3>
+                <p>{{ shelter_info.email }}</p>
+            </div>
+            <div class="about__info-item">
+                <h3>Adatok</h3>
+                <p>{{ shelter_info.description_number }}</p>
+            </div>
+        </div>
 
-
-{% endblock %}
-
-
+        <div class="about__donation">
+            <h2>Támogatás</h2>
+            <p>{{ shelter_info.donation_text }}</p>
+        </div>
+    </div>
+</section>
+  </body>
+</html>

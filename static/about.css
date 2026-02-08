@@ -1,0 +1,162 @@
+/* ============================================
+   ABOUT PAGE STYLES
+   ============================================ */
+
+.about {
+    padding: 60px 40px;
+    background-color: var(--primary-color);
+    min-height: calc(100vh - 80px);
+}
+
+.about__container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about__title {
+    font-family: "Playfair Display", serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+/* Content section */
+.about__content {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 50px;
+    border-radius: 8px;
+    margin-bottom: 60px;
+}
+
+.about__content h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.about__content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* Info items */
+.about__info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.about__info-item {
+    background-color: var(--third-color);
+    padding: 35px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.about__info-item h3 {
+    font-family: "Playfair Display", serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.about__info-item p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+/* Donation section */
+.about__donation {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 50px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.about__donation h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.about__donation p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .about {
+        padding: 40px 20px;
+    }
+
+    .about__title {
+        font-size: 36px;
+        margin-bottom: 40px;
+    }
+
+    .about__content {
+        padding: 40px 25px;
+    }
+
+    .about__content h2 {
+        font-size: 26px;
+    }
+
+    .about__info {
+        gap: 20px;
+    }
+
+    .about__info-item {
+        padding: 30px 20px;
+    }
+
+    .about__donation {
+        padding: 40px 25px;
+    }
+
+    .about__donation h2 {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about {
+        padding: 20px;
+    }
+
+    .about__title {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .about__content {
+        padding: 25px 15px;
+    }
+
+    .about__content h2 {
+        font-size: 22px;
+    }
+
+    .about__info {
+        grid-template-columns: 1fr;
+    }
+
+    .about__info-item {
+        padding: 25px 15px;
+    }
+}

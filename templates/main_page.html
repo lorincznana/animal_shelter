@@ -6,32 +6,59 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
-    <header class="site-header">
-        <div class="header-inner">
-            <h1 class="logo">
-              {% if shelter_info %}
-                {{ shelter_info.name }}
-              {% else %}
-                Állatotthon
-              {% endif %}
-            </h1>
-            <nav>
-                <a href="{{ url_for('list_animals') }}">Kisállataink</a>
-                <a href="{{ url_for('login') }}">Bejelentkezés</a>
-                <a href="{{ url_for('register') }}">Regisztráció</a>
-                <a href="{{ url_for('about_page') }}">Rólunk</a>
-                <a href="{{ url_for('main_page') }}">Főoldal</a>
+<!-- HEADER -->
+<header class="header">
+    <div class="header__logo">REMÉNY ÁLLATOTTHON</div>
+    <nav class="header__nav">
+        <a href="/animals" class="header__nav-link">Kisállataink</a>
+        <a href="/about_page" class="header__nav-link">Rólunk</a>
+        <a href="/login" class="header__nav-link">Bejelentkezés</a>
+        <a href="/register" class="header__cta-btn">Csatlakozz</a>
+    </nav>
+</header>
 
-            </nav>
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero__container">
+        <div class="hero__quote-section">
+            <h1 class="hero__quote">Te egyszer és mindenkorra felelős lettél azért, amit megszelídítettél.</h1>
+            <p class="hero__quote-subtext">Alapítványunk a kóbor állatok örökbefogadásáért küzd nap mint nap. Évente 200 és 500 között fogadunk be kiskedvenceket hogy új esélyt adjunk nekik.</p>
         </div>
-    </header>
-  <main class="container">
-    {% block content %}{% endblock %}
+        <div class="hero__image-wrapper">
+            <img src="kutyak.jpg" alt="Kutyák" class="hero__image">
+        </div>
+    </div>
+</section>
 
-  </main>
-    <footer class ="site-footer">
-        <hr>
-        <p>&copy; 2025 {{ shelter_info.name }}</p>
-    </footer>
+<!-- FEATURED SECTION -->
+<section class="featured">
+    <div class="featured__image-wrapper">
+        <img src="family.jpg" alt="Család" class="featured__image">
+    </div>
+    <div class="featured__content">
+        <h2 class="featured__title">Menhelyünkről</h2>
+        <p class="featured__text">Csapatunk folyamatosan dolgozik azon, hogy minél több kisállat lelhessen rá az álomotthonára.</p>
+    </div>
+</section>
+
+<!-- STORY SECTION -->
+<section class="story-section">
+    <div class="story__wrapper">
+        <div class="story__content">
+            <h2 class="story__title">Adj egy második esélyt és mentsd meg egy kiskedvenc életet</h2>
+            <p class="story__text">Marcsi, az első örökbefogadott cicánk 2019-ben talált rá az álomgazdira.</p>
+        </div>
+        <div class="story__image-wrapper">
+            <img src="macska.jpg" alt="Macska" class="story__image">
+        </div>
+    </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="cta-box">
+    <h2 class="cta-box__title">Támogasson minket <br>adója 1%-val!</h2>
+    <p class="cta-box__text">Remény Állatotthon [...info...]</p>
+    <button class="cta-box__btn">Támogatás</button>
+</section>
   </body>
 </html>
