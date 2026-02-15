@@ -7,6 +7,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import os
 
+#Ötlet a Kedvesemtől: Lehessen magyar és angol nyelvű is a weboldal.
+#Én: AI chatbot
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'K1c51_NYu5Z1_67$'
@@ -52,9 +55,39 @@ def main_page():
 
 @app.route('/animals', methods=['GET'])
 def list_animals():
-    animals = Animal.query.all()
-    return render_template('animals.html', animals=animals)
+    animals_list = Animal.query.all()
+    shelter_info = ShelterInfo.query.first()
 
+    # JSON formátumban a frontend számára
+    animals_json = {}
+    for animal in animals_list:
+        animals_json[animal.id] = {
+            'id': animal.id,
+            'name': animal.name,
+            'species': animal.species,
+            'breed': animal.breed,
+            'age': animal.age,
+            'gender': animal.gender,
+            'description': animal.description,
+            'image_url': animal.image_url,
+            'available': animal.available,
+            'medical_records': [{
+                'vaccine': mr.vaccine,
+                'vaccine_date': mr.vaccine_date.isoformat() if mr.vaccine_date else None,
+                'disease': mr.disease,
+                'treatment': mr.treatment,
+                'vet_name': mr.vet_name,
+                'updated_at': mr.updated_at.isoformat() if mr.updated_at else None
+            } for mr in animal.medical_records],
+            'gallery': [{
+                'image_url': g.image_url
+            } for g in animal.gallery]
+        }
+
+    return render_template('animals.html',
+                           animals=animals_list,
+                           animals_json=animals_json,
+                           shelter_info=shelter_info)
 
 
 

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ shelter_info.name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header__logo">REMÉNY ÁLLATOTTHON</div>
+        <nav class="header__nav">
+            <a href="/" class="header__nav-link">Kezdőlap</a>
+            <a href="/animals" class="header__nav-link">Kisállataink</a>
+            <a href="/about_page" class="header__nav-link">Rólunk</a>
+            <a href="/login" class="header__nav-link">Bejelentkezés</a>
+            <a href="/register" class="header__cta-btn">Csatlakozz</a>
+        </nav>
+    </header>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p class="flash-{{ category }}">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- CONTENT BLOCK -->
+    {% block content %}{% endblock %}
+
+    <!-- FOOTER (opcionális) -->
+    {% block footer %}
+    <footer class="footer">
+        <p>&copy; 2025 Remény Állatotthon. Minden jog fenntartva.</p>
+    </footer>
+    {% endblock %}
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

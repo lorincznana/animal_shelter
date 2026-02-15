@@ -1,3 +1,242 @@
-.animal_pic {
-    width: 350px;
+/* ============================================
+   ANIMALS PAGE STYLES
+   ============================================ */
+
+.animals {
+    padding: 60px 40px;
+    background-color: var(--primary-color);
+
+}
+
+.animals__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.animals__title {
+    font-family: "Playfair Display", serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+
+.add-animal {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.add-animal:hover {
+    background-color: #6b8989;
+}
+
+/* Flash messages */
+.flash-success {
+    background-color: #4caf50;
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.flash-warning {
+    background-color: #ff9800;
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.flash-error {
+    background-color: #f44336;
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* Animals grid */
+.animals__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Animal card */
+.animal-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.animal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.animal-card__image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px 8px 0 0;
+}
+
+.animal-card__no-image {
+    width: 100%;
+    height: 250px;
+    background-color: var(--secondary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.animal-card__content {
+    padding: 25px;
+}
+
+.animal-card__name {
+    font-family: "Playfair Display", serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.animal-card__info {
+    margin-bottom: 15px;
+}
+
+.animal-card__info p {
+    font-size: 13px;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.animal-card__info strong {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.animal-card__description {
+    font-size: 14px;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.animal-card__edit {
+    display: inline-block;
+    background-color: var(--third-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.animal-card__edit:hover {
+    background-color: #c998ac;
+}
+
+/* Empty state */
+.animals__empty {
+    text-align: center;
+    font-size: 18px;
+    color: var(--secondary-color);
+    padding: 60px 20px;
+    grid-column: 1 / -1;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .animals {
+        padding: 40px 20px;
+    }
+
+    .animals__title {
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+
+    .animals__grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .animal-card__image {
+        height: 200px;
+    }
+
+    .animal-card__content {
+        padding: 20px;
+    }
+
+    .animal-card__name {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .animals {
+        padding: 20px;
+    }
+
+    .animals__title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .animals__grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .animal-card__image {
+        height: 180px;
+    }
+
+    .animal-card__content {
+        padding: 15px;
+    }
+
+    .animal-card__name {
+        font-size: 18px;
+    }
+
+    .add-animal {
+        width: 100%;
+        text-align: center;
+    }
 }
