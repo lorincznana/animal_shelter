@@ -1,15 +1,30 @@
+{% extends 'base.html' %}
 
+{% block content %}
 
-<h2>Bejelentkezés</h2>
+<div class="login-container">
+    <h2>Bejelentkezés</h2>
+    <div class="pet">
+        <img class="petimg" src="https://images.pexels.com/photos/54632/cat-animal-eyes-grey-54632.jpeg?_gl=1*zhsko6*_ga*NDkxODM5OTEuMTc3MTM1MTYxNw..*_ga_8JE65Q40S6*czE3NzEzNTE2MTckbzEkZzEkdDE3NzEzNTE3NTUkajM5JGwwJGgw" alt="pet">
+    </div>
 
-<body>
-<form method="POST">
-    <label>Felhasználónév:</label><br><br>
-    <input type="text" name="username" required><br><br>
+    <form id="form" class="fancy-form" method="POST">
+        <div>
+            <label>Felhasználónév:</label>
+            <input type="text" name="username" required>
 
-    <label>Jelszó:</label><br><br>
-    <input type="password" name="password" required><br><br>
+            <label>Jelszó:</label>
+            <input type="password" name="password" required><br>
+            <br>
 
-    <button type="submit">Bejelentkezés</button>
-</form>
-</body>
+            <button type="submit">Bejelentkezés</button>
+        </div>
+    </form>
+
+    <br>
+    <p>Nem regisztráltál fiókot?
+        <a class="register_now" href="{{ url_for('register') }}"><strong>Regisztrálj!</strong></a>
+    </p>
+</div>
+
+{% endblock %}

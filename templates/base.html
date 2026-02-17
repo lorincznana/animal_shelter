@@ -8,29 +8,34 @@
     {% block extra_css %}{% endblock %}
   </head>
   <body>
-    <!-- HEADER -->
+
     <header class="header">
         <div class="header__logo">REMÉNY ÁLLATOTTHON</div>
         <nav class="header__nav">
-            <a href="/" class="header__nav-link">Kezdőlap</a>
-            <a href="/animals" class="header__nav-link">Kisállataink</a>
-            <a href="/about_page" class="header__nav-link">Rólunk</a>
-            <a href="/login" class="header__nav-link">Bejelentkezés</a>
-            <a href="/register" class="header__cta-btn">Csatlakozz</a>
+            <a href="/" class="header__nav-link {% if request.endpoint == 'main_page' %}header__nav-link--active{% endif %}">Kezdőlap</a>
+            <a href="/animals" class="header__nav-link {% if request.endpoint == 'list_animals' %}header__nav-link--active{% endif %}">Kisállataink</a>
+            <a href="/about_page" class="header__nav-link {% if request.endpoint == 'about_page' %}header__nav-link--active{% endif %}">Rólunk</a>
+
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}" class="header__cta-btn">Kijelentkezés</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="header__cta-btn">Bejelentkezés</a>
+                <a href="/register" class="header__cta-btn">Regisztrálj</a>
+            {% endif %}
         </nav>
     </header>
 
-    <!-- FLASH MESSAGES -->
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
             <p class="flash-{{ category }}">{{ message }}</p>
         {% endfor %}
     {% endwith %}
 
-    <!-- CONTENT BLOCK -->
+
     {% block content %}{% endblock %}
 
-    <!-- FOOTER (opcionális) -->
+
     {% block footer %}
     <footer class="footer">
         <p>&copy; 2025 Remény Állatotthon. Minden jog fenntartva.</p>

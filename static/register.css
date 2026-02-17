@@ -1,0 +1,116 @@
+.register-container   {
+    color: var(--text-color);
+    margin: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+
+.pet {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.pet img {
+    width: 300px;
+    display: block;
+    margin: 0 auto;
+    padding: 1.5em;
+}
+
+
+form.fancy-form {
+
+    overflow: hidden;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    justify-content: flex-start;
+    width: auto;
+    min-width: 280px;
+
+    height: auto;
+    background: var(--primary-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 20px var(--secondary-color);
+
+    padding: 25px 30px;
+    gap: 10px;
+
+    overflow: hidden;
+    text-align: center;
+
+}
+
+
+.book{
+    max-width: 50%;
+}
+
+img.petimg{
+    width: 300px;
+    margin: auto;
+    display: block;
+    padding: 1.5em;
+}
+
+
+form.fancy-form  div {
+    margin: 0.1em 0;
+    width: 100%;
+    margin-bottom:4px;
+}
+
+form.fancy-form label{
+    display :block;
+    width: 100%;
+}
+
+
+
+form.fancy-form button[type=submit] {
+    font-weight: 1000;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+
+    padding: 12px 28px;
+    border-radius: 12px;
+
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+form.fancy-form button[type=submit]:hover{
+    background-color: var(--third-color);
+    transform: translateY(-2px);
+
+}
+
+form.fancy-form input[type=email]:invalid {
+    background-color: var(--secondary-color);
+
+}
+
+form.fancy-form :focus {
+    border-color:var(--primary-color);
+    border-width: thick;
+}
+
+form.fancy-form fieldset {
+    border: transparent;
+
+}
+
+.register-now{
+    font-weight: bold;
+
+}
+
+

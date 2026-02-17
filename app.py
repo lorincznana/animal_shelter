@@ -58,7 +58,6 @@ def list_animals():
     animals_list = Animal.query.all()
     shelter_info = ShelterInfo.query.first()
 
-    # JSON formátumban a frontend számára
     animals_json = {}
     for animal in animals_list:
         animals_json[animal.id] = {
@@ -162,6 +161,7 @@ def about_page():
     shelter_info = ShelterInfo.query.first()
     return render_template('about_page.html', shelter_info=shelter_info)
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -169,11 +169,13 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-
         if User.query.filter_by(username=username).first():
-            return "A felhasználónév már foglalt."
+            flash("A felhasználónév már foglalt.", "error")
+            return redirect(url_for('register'))
+
         if User.query.filter_by(email=email).first():
-            return "Ezzel az email-el már regisztráltak."
+            flash("Ezzel az email-el már regisztráltak.", "error")
+            return redirect(url_for('register'))
 
         new_user = User(
             username=username,
@@ -183,7 +185,9 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        return ("Sikeres regisztráció!")
+        flash("Sikeres regisztráció! Most jelentkezz be.", "success")
+        return redirect(url_for('login'))
+
     return render_template('register.html')
 
 
@@ -198,7 +202,8 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if not user or not check_password_hash(user.password, password):
-            return "Hibás felhasználónév vagy jelszó."
+            flash("Hibás felhasználónév vagy jelszó.", "warning")
+            return redirect(url_for('login'))
 
         login_user(user)
         return redirect(url_for('main_page'))
