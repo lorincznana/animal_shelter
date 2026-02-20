@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
 from app import app, db
-from models import User, Animal, MedicalRecord, Gallery, Adopter, Adoption, ShelterInfo
+from models import User, Animal, MedicalRecord, Gallery, ShelterInfo
 from datetime import datetime, timedelta, date
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -39,29 +39,50 @@ if __name__ == "__main__":
             created_at = date(2015, 1, 1),
         )
 
+
+
         marcsi = Animal(
             name="Marcsi",
-            species = "macska",
-            breed = "Európai házimacska",
-            age = 1,
-            gender = "nőstény",
-            description = "Első örökbefogadott kisállatunk.",
-            image_url = "https://images.pexels.com/photos/27616905/pexels-photo-27616905.jpeg?_gl=1*1f73vbq*_ga*MjI3MTY3MTM3LjE3NTQ5MzQ2OTI.*_ga_8JE65Q40S6*czE3NjExNDI0MzYkbzE1JGcwJHQxNzYxMTQyNDM2JGo2MCRsMCRoMA..",
-            available = False
+            species="macska",
+            breed="Európai házimacska",
+            age=8,
+            gender="nőstény",
+            description="Első örökbefogadott kisállatunk.",
+            image_url="https://images.pexels.com/photos/27616905/pexels-photo-27616905.jpeg?_gl=1*1f73vbq*_ga*MjI3MTY3MTM3LjE3NTQ5MzQ2OTI.*_ga_8JE65Q40S6*czE3NjExNDDI0MzYkbzE1JGcwJHQxNzYxMTQyNDM2JGo2MCRsMCRoMA..",
+            medical_records=[
+                MedicalRecord(
+                    vaccine="Macska triász",
+                    vaccine_date=date(2024, 3, 15),
+                    disease=None,
+                    treatment=None,
+                    vet_name="Dr. Kiss Péter",
+                    updated_at=datetime.now()
+                )
+            ]
         )
         db.session.add(marcsi)
         db.session.commit()
 
-        medicalRecord = MedicalRecord(
-
-            vaccine="Veszettség elleni oltás",
-            vaccine_date=date(2015, 3, 15),
-            disease="None",
-            treatment="None",
-            vet_name="Dr. Kutyás László",
-            updated_at=datetime.now()
+        bodri = Animal(
+            name="Bodri",
+            species="kutya",
+            breed="Border collie",
+            age=7,
+            gender="kan",
+            description="Nagy mozgásigényű kutyus, barátságos.",
+            image_url="https://images.pexels.com/photos/1124002/pexels-photo-1124002.jpeg?_gl=1*1bnvjf*_ga*NTA1NjY0Njg0LjE3NzE2MDg0NTU.*_ga_8JE65Q40S6*czE3NzE2MTM1NTgkbzIkZzAkdDE3NzE2MTM1NTgkajYwJGwwJGgw",
+            medical_records=[
+                MedicalRecord(
+                    vaccine="Veszettség elleni oltás",
+                    vaccine_date=date(2024, 3, 15),
+                    disease=None,
+                    treatment=None,
+                    vet_name="Dr. Kiss Péter",
+                    updated_at=datetime.now()
+                )
+            ]
         )
-        db.session.add(medicalRecord)
+        db.session.add(bodri)
         db.session.commit()
 
 
@@ -72,25 +93,11 @@ if __name__ == "__main__":
         db.session.add(marcsiGallery)
         db.session.commit()
 
-        laciAdopter = Adopter(
-            name = "Dr. Kutyás László",
-            email = "kutyas@dr.hu",
-            phone = "+36 30 123 4567",
-            address = "4900 Fehérgyarmat, Lakatlan utca 1/A",
-            adopted_at = date(2015, 3, 15)
+        bodriGallery = Gallery(
+            animal_id = bodri.id,
+            image_url = bodri.image_url
         )
-        db.session.add(laciAdopter)
-        db.session.commit()
-
-        marcsiAdoption = Adoption(
-            animal_id = marcsi.id,
-            adopter_id = laciAdopter.id,
-            adoption_date = date(2015, 3, 15),
-            status = 'approved',
-            notes = "Első örökbefogadás."
-        )
-
-        db.session.add(marcsiAdoption)
+        db.session.add(bodriGallery)
         db.session.commit()
 
 

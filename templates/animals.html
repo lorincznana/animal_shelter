@@ -39,6 +39,42 @@
                                 <p class="animal-card__description">{{ animal.description }}</p>
                             {% endif %}
 
+                            {% if animal.medical_records %}
+                                <button class="animal-card__med-btn"
+                                        onclick="openMedModal({{ animal.id }})">
+                                    🏥 Orvosi napló
+                                </button>
+                            {% endif %}
+
+                            {% if animal.medical_records %}
+                                <div class="animal-card__medical-records">
+                                    <h4>Orvosi napló</h4>
+                                    {% for record in animal.medical_records %}
+                                        <div class="medical-record">
+                                            {% if record.vaccine %}
+                                                <p><strong>Oltás:</strong> {{ record.vaccine }}
+                                                {% if record.vaccine_date %}
+                                                    ({{ record.vaccine_date.strftime('%Y.%m.%d') }})
+                                                {% endif %}
+                                                </p>
+                                            {% endif %}
+                                            {% if record.disease %}
+                                                <p><strong>Betegség:</strong> {{ record.disease }}</p>
+                                            {% endif %}
+                                            {% if record.treatment %}
+                                                <p><strong>Kezelés:</strong> {{ record.treatment }}</p>
+                                            {% endif %}
+                                            {% if record.vet_name %}
+                                                <p><strong>Állatorvos:</strong> {{ record.vet_name }}</p>
+                                            {% endif %}
+                                            {% if record.updated_at %}
+                                                <p><strong>Frissítve:</strong> {{ record.updated_at.strftime('%Y.%m.%d') }}</p>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
                             {% if current_user.is_authenticated and current_user.role and current_user.role in ['admin', 'staff'] %}
                                 <a class="animal-card__edit" href="{{ url_for('edit_animal', animal_id=animal.id) }}">✏️ Szerkesztés</a>
                             {% endif %}

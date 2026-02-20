@@ -149,6 +149,15 @@
     border-top: 1px solid #eee;
 }
 
+.animal-card__medical_records {
+    font-size: 14px;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
 .animal-card__edit {
     display: inline-block;
     background-color: var(--third-color);

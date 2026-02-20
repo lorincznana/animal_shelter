@@ -20,7 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-from models import Animal, MedicalRecord, Gallery, Adopter, Adoption, ShelterInfo, User
+from models import Animal, MedicalRecord, Gallery, ShelterInfo, User
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -69,7 +69,7 @@ def list_animals():
             'gender': animal.gender,
             'description': animal.description,
             'image_url': animal.image_url,
-            'available': animal.available,
+
             'medical_records': [{
                 'vaccine': mr.vaccine,
                 'vaccine_date': mr.vaccine_date.isoformat() if mr.vaccine_date else None,

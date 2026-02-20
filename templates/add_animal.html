@@ -1,44 +1,43 @@
 {% extends 'main_page.html' %}
 {% block content %}
 
-<h2>Új kisállat hozzáadása</h2>
+<div class="animal-container">
+<h2>Új kisállat hozzáadása</h2><br>
 <hr>
 
-<form method="POST" action="{{ url_for('add_animal') }}">
-    <label>Név:</label><br>
-    <input type="text" name="name" placeholder="Név" required><br><br>
+<form method="POST" class="fancy-form" action="{{ url_for('add_animal') }}">
+    <label>Név:</label>
+    <input type="text" name="name" placeholder="Név" required>
 
-    <label>Faj:</label><br>
-    <input type="text" name="species" placeholder="Faj (kutya, macska...)" required><br><br>
+    <label>Faj:</label>
+    <input type="text" name="species" placeholder="Faj (kutya, macska...)" required>
 
-    <label>Fajta:</label><br>
-    <input type="text" name="breed" placeholder="Fajta"><br><br>
+    <label>Fajta:</label>
+    <input type="text" name="breed" placeholder="Fajta">
 
-    <label>Kor:</label><br>
-    <input type="number" name="age" placeholder="Kor (év)" min="0"><br><br>
+    <label>Kor:</label>
+    <input type="number" name="age" placeholder="Kor (év)" min="0">
 
-    <label>Nem:</label><br>
+    <label>Nem:</label>
     <select name="gender" required>
         <option value="" disabled selected>Válassz...</option>
         <option value="hím">Hím</option>
         <option value="kan">Kan</option>
         <option value="nőstény">Nőstény</option>
         <option value="szuka">Szuka</option>
-    </select><br><br>
+    </select>
 
-    <label>Leírás:</label><br>
-    <textarea name="description" placeholder="Leírás" rows="4" cols="40"></textarea><br><br>
+    <label>Leírás:</label>
+    <textarea name="description" placeholder="Leírás" rows="4" cols="40"></textarea>
 
-    <label>Kép URL:</label><br>
-    <input type="text" name="image_url" placeholder="Kép URL"><br><br>
+    <label>Kép URL:</label>
+    <input type="text" name="image_url" placeholder="Kép URL">
 
-    <label>
-        <input type="checkbox" name="available" checked>
-        Örökbe fogadható
-    </label><br><br>
+
 
     <button type="submit">Állat hozzáadása</button>
 </form>
+</div>
 
 <br>
 <a href="{{ url_for('list_animals') }}">⬅ Vissza a kisállatokhoz</a>

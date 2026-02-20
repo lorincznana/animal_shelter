@@ -16,12 +16,10 @@ class Animal(db.Model):
     gender = db.Column(db.Enum('hím', 'kan', 'nőstény', 'szuka', name='gender_enum'))
     description = db.Column(db.String(500))
     image_url = db.Column(db.String(200))
-    available = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     medical_records = db.relationship('MedicalRecord', backref='animal', lazy=True)
     gallery = db.relationship('Gallery', backref='animal', lazy=True)
-    adoptions = db.relationship('Adoption', backref='animal', lazy=True)
 
 class MedicalRecord(db.Model):
     __tablename__ = 'medical_records'
@@ -40,25 +38,6 @@ class Gallery(db.Model):
     animal_id = db.Column(db.Integer, db.ForeignKey('animals.id'))
     image_url = db.Column(db.String(200))
 
-class Adopter(db.Model):
-    __tablename__ = 'adopters'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    email = db.Column(db.String(100))
-    phone = db.Column(db.String(50))
-    address = db.Column(db.String(200))
-    adopted_at = db.Column(db.Date)
-
-    adoptions = db.relationship('Adoption', backref='adopter', lazy=True)
-
-class Adoption(db.Model):
-    __tablename__ = 'adoptions'
-    id = db.Column(db.Integer, primary_key=True)
-    animal_id = db.Column(db.Integer, db.ForeignKey('animals.id'))
-    adopter_id = db.Column(db.Integer, db.ForeignKey('adopters.id'))
-    adoption_date = db.Column(db.Date)
-    status = db.Column(db.Enum('pending', 'approved', 'rejected', name='adoption_status'))
-    notes = db.Column(db.String(500))
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
