@@ -29,6 +29,8 @@ class MedicalRecord(db.Model):
     vaccine_date = db.Column(db.Date)
     disease = db.Column(db.String(100))
     treatment = db.Column(db.String(200))
+    chipped = db.Column(db.Boolean)
+    castrated = db.Column(db.Boolean)
     vet_name = db.Column(db.String(100))
     updated_at = db.Column(db.DateTime)
 

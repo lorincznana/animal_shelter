@@ -14,6 +14,7 @@
         <div class="animals__grid">
             {% if animals %}
                 {% for animal in animals %}
+
                     <div class="animal-card">
                         {% if animal.image_url %}
                             <img class="animal-card__image" src="{{ animal.image_url }}" alt="{{ animal.name }}">
@@ -23,7 +24,7 @@
 
                         <div class="animal-card__content">
                             <h3 class="animal-card__name">{{ animal.name }}</h3>
-                            
+
                             <div class="animal-card__info">
                                 <p><strong>Faj:</strong> {{ animal.species }}</p>
                                 {% if animal.breed %}
@@ -40,39 +41,10 @@
                             {% endif %}
 
                             {% if animal.medical_records %}
-                                <button class="animal-card__med-btn"
+                                <a class="animal-card__med-info"
                                         onclick="openMedModal({{ animal.id }})">
                                     🏥 Orvosi napló
-                                </button>
-                            {% endif %}
-
-                            {% if animal.medical_records %}
-                                <div class="animal-card__medical-records">
-                                    <h4>Orvosi napló</h4>
-                                    {% for record in animal.medical_records %}
-                                        <div class="medical-record">
-                                            {% if record.vaccine %}
-                                                <p><strong>Oltás:</strong> {{ record.vaccine }}
-                                                {% if record.vaccine_date %}
-                                                    ({{ record.vaccine_date.strftime('%Y.%m.%d') }})
-                                                {% endif %}
-                                                </p>
-                                            {% endif %}
-                                            {% if record.disease %}
-                                                <p><strong>Betegség:</strong> {{ record.disease }}</p>
-                                            {% endif %}
-                                            {% if record.treatment %}
-                                                <p><strong>Kezelés:</strong> {{ record.treatment }}</p>
-                                            {% endif %}
-                                            {% if record.vet_name %}
-                                                <p><strong>Állatorvos:</strong> {{ record.vet_name }}</p>
-                                            {% endif %}
-                                            {% if record.updated_at %}
-                                                <p><strong>Frissítve:</strong> {{ record.updated_at.strftime('%Y.%m.%d') }}</p>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
+                                </a>
                             {% endif %}
 
                             {% if current_user.is_authenticated and current_user.role and current_user.role in ['admin', 'staff'] %}
@@ -80,7 +52,57 @@
                             {% endif %}
                         </div>
                     </div>
+
+                    {% if animal.medical_records %}
+                        <div class="med-modal" id="modal-{{ animal.id }}">
+                            <div class="med-modal__box">
+                                <button class="med-modal__close" onclick="closeMedModal({{ animal.id }})">✕</button>
+                                <h3>{{ animal.name }} – Orvosi napló</h3>
+
+                                {% for record in animal.medical_records %}
+                                    <div class="med-modal__record">
+
+
+                                        {% if record.chipped == True %}
+                                        <p><strong>Chippelve</strong></p>
+                                        {% else %}
+                                        <p><strong>Nincs chippelve</strong></p>
+                                        {% endif %}
+
+
+
+                                        {% if record.castrated == True %}
+                                        <p><strong>Ivartalanított</strong></p>
+                                        {% elif record.castrated == False %}
+                                        <p><strong>Nem ivartalanított</strong></p>
+                                        {% endif %}
+
+
+                                        {% if record.vaccine %}
+                                            <p><strong>Oltás:</strong> {{ record.vaccine }}
+                                                {% if record.vaccine_date %}
+                                                    ({{ record.vaccine_date.strftime('%Y.%m.%d') }})
+                                                {% endif %}
+                                            </p>
+                                        {% endif %}
+                                        {% if record.disease %}
+                                            <p><strong>Betegség:</strong> {{ record.disease }}</p>
+                                        {% endif %}
+                                        {% if record.treatment %}
+                                            <p><strong>Kezelés:</strong> {{ record.treatment }}</p>
+                                        {% endif %}
+
+                                        {% if record.vet_name %}
+                                            <p><strong>Állatorvos:</strong> {{ record.vet_name }}</p>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
                 {% endfor %}
+
             {% else %}
                 <p class="animals__empty">Jelenleg nincs elérhető állat.</p>
             {% endif %}

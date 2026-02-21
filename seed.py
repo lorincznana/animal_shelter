@@ -55,6 +55,8 @@ if __name__ == "__main__":
                     vaccine_date=date(2024, 3, 15),
                     disease=None,
                     treatment=None,
+                    chipped = True,
+                    castrated = True,
                     vet_name="Dr. Kiss Péter",
                     updated_at=datetime.now()
                 )
@@ -77,12 +79,38 @@ if __name__ == "__main__":
                     vaccine_date=date(2024, 3, 15),
                     disease=None,
                     treatment=None,
+                    chipped=True,
+                    castrated = False,
                     vet_name="Dr. Kiss Péter",
                     updated_at=datetime.now()
                 )
             ]
         )
         db.session.add(bodri)
+        db.session.commit()
+
+        margareta = Animal(
+            name="Margaréta",
+            species="kutya",
+            breed="Golden retriever mix",
+            age=5,
+            gender="szuka",
+            description="Családbarát, kis mozgásigényű kutyus, ideális akár lakásba is.",
+            image_url="https://images.pexels.com/photos/35867207/pexels-photo-35867207.jpeg?_gl=1*1h9di20*_ga*NTA1NjY0Njg0LjE3NzE2MDg0NTU.*_ga_8JE65Q40S6*czE3NzE2ODEzMzIkbzQkZzEkdDE3NzE2ODEzNDIkajUwJGwwJGgw",
+            medical_records=[
+                MedicalRecord(
+                    vaccine="Veszettség elleni oltás",
+                    vaccine_date=date(2026, 1, 3),
+                    disease=None,
+                    treatment=None,
+                    chipped=False,
+                    castrated=False,
+                    vet_name="Dr. Kiss Péter",
+                    updated_at=datetime.now()
+                )
+            ]
+        )
+        db.session.add(margareta)
         db.session.commit()
 
 

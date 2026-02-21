@@ -7,39 +7,40 @@
 
 <form method="POST" class="fancy-form" action="{{ url_for('add_animal') }}">
     <label>Név:</label>
-    <input type="text" name="name" placeholder="Név" required>
+    <input type="text" name="name" required>
 
     <label>Faj:</label>
-    <input type="text" name="species" placeholder="Faj (kutya, macska...)" required>
+    <input type="text" name="species" required>
 
     <label>Fajta:</label>
-    <input type="text" name="breed" placeholder="Fajta">
+    <input type="text" name="breed">
 
     <label>Kor:</label>
-    <input type="number" name="age" placeholder="Kor (év)" min="0">
+    <input type="number" name="age" min="0">
 
     <label>Nem:</label>
     <select name="gender" required>
-        <option value="" disabled selected>Válassz...</option>
         <option value="hím">Hím</option>
         <option value="kan">Kan</option>
         <option value="nőstény">Nőstény</option>
         <option value="szuka">Szuka</option>
     </select>
-
     <label>Leírás:</label>
-    <textarea name="description" placeholder="Leírás" rows="4" cols="40"></textarea>
+    <textarea name="description" rows="4" cols="40"></textarea>
 
     <label>Kép URL:</label>
-    <input type="text" name="image_url" placeholder="Kép URL">
+    <input type="text" name="image_url">
 
+    <h3>Orvosi bejegyzések</h3>
+    <div id="medical-records-container"></div>
 
+    <button type="button" onclick="addRecord()">➕ Új bejegyzés hozzáadása</button><br><br>
 
     <button type="submit">Állat hozzáadása</button>
 </form>
-</div>
 
 <br>
 <a href="{{ url_for('list_animals') }}">⬅ Vissza a kisállatokhoz</a>
+</div>
 
 {% endblock %}

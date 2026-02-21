@@ -95,36 +95,45 @@ def list_animals():
 @roles_required('admin', 'staff')
 def add_animal():
     if request.method == 'POST':
-        animal_name = request.form['name']
-        animal_species = request.form['species']
-        animal_breed = request.form.get('breed')
-        animal_age = request.form.get('age')
-        animal_gender = request.form['gender']
-        animal_description = request.form.get('description')
-        animal_image_url = request.form.get('image_url')
-        animal_available = request.form.get('available') == 'on'
-
-        # age string → int (ha üres, None)
-        age = int(animal_age) if animal_age else None
+        age = int(request.form.get('age')) if request.form.get('age') else None
 
         new_animal = Animal(
-            name=animal_name,
-            species=animal_species,
-            breed=animal_breed,
+            name=request.form['name'],
+            species=request.form['species'],
+            breed=request.form.get('breed'),
             age=age,
-            gender=animal_gender,
-            description=animal_description,
-            image_url=animal_image_url,
-            available=animal_available
+            gender=request.form['gender'],
+            description=request.form.get('description'),
+            image_url=request.form.get('image_url')
         )
-
         db.session.add(new_animal)
-        db.session.commit()
+        db.session.flush()  # hogy meglegyen az ID a medical recordhoz
 
+        vaccines      = request.form.getlist('vaccine[]')
+        vaccine_dates = request.form.getlist('vaccine_date[]')
+        diseases      = request.form.getlist('disease[]')
+        treatments    = request.form.getlist('treatment[]')
+        vet_names     = request.form.getlist('vet_name[]')
+
+        for i in range(len(vaccines)):
+            if any([vaccines[i], diseases[i], treatments[i], vet_names[i]]):
+                record = MedicalRecord(
+                    animal_id=new_animal.id,
+                    vaccine=vaccines[i] or None,
+                    vaccine_date=vaccine_dates[i] or None,
+                    disease=diseases[i] or None,
+                    treatment=treatments[i] or None,
+                    vet_name=vet_names[i] or None,
+                    updated_at=datetime.utcnow()
+                )
+                db.session.add(record)
+
+        db.session.commit()
         flash("Kisállat sikeresen hozzáadva!", "success")
         return redirect(url_for('list_animals'))
 
     return render_template('add_animal.html')
+
 
 @app.route('/animals/edit/<int:animal_id>', methods=['GET', 'POST'])
 @login_required
@@ -133,23 +142,43 @@ def edit_animal(animal_id):
     animal = Animal.query.get_or_404(animal_id)
 
     if request.method == 'POST':
-        animal.name = request.form['name']
-        animal.species = request.form['species']
-        animal.breed = request.form.get('breed')
-        animal_age = request.form.get('age')
-        animal.age = int(animal_age) if animal_age else None
-        animal.gender = request.form['gender']
+        age = int(request.form.get('age')) if request.form.get('age') else None
+
+        animal.name        = request.form['name']
+        animal.species     = request.form['species']
+        animal.breed       = request.form.get('breed')
+        animal.age         = age
+        animal.gender      = request.form['gender']
         animal.description = request.form.get('description')
-        animal.image_url = request.form.get('image_url')
-        animal.available = request.form.get('available') == 'on'
+        animal.image_url   = request.form.get('image_url')
+
+        # Régi rekordok törlése, újak mentése
+        MedicalRecord.query.filter_by(animal_id=animal.id).delete()
+
+        vaccines      = request.form.getlist('vaccine[]')
+        vaccine_dates = request.form.getlist('vaccine_date[]')
+        diseases      = request.form.getlist('disease[]')
+        treatments    = request.form.getlist('treatment[]')
+        vet_names     = request.form.getlist('vet_name[]')
+
+        for i in range(len(vaccines)):
+            if any([vaccines[i], diseases[i], treatments[i], vet_names[i]]):
+                record = MedicalRecord(
+                    animal_id=animal.id,
+                    vaccine=vaccines[i] or None,
+                    vaccine_date=vaccine_dates[i] or None,
+                    disease=diseases[i] or None,
+                    treatment=treatments[i] or None,
+                    vet_name=vet_names[i] or None,
+                    updated_at=datetime.utcnow()
+                )
+                db.session.add(record)
 
         db.session.commit()
-
         flash("Kisállat adatai sikeresen módosítva!", "success")
         return redirect(url_for('list_animals'))
 
     return render_template('edit_animal.html', animal=animal)
-
 
 @app.context_processor
 def inject_shelter_info():
