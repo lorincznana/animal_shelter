@@ -61,9 +61,6 @@
     background-color: #6b8989;
 }
 
-/* ============================================
-   HERO SECTION
-   ============================================ */
 
 .hero {
     padding: 60px 40px;
@@ -117,9 +114,6 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* ============================================
-   FEATURED SECTION (Meghökkentői)
-   ============================================ */
 
 .featured {
     background-color: var(--secondary-color);
@@ -167,9 +161,6 @@
     color: rgba(255, 255, 255, 0.95);
 }
 
-/* ============================================
-   STORY SECTION (Rózsaszín doboz)
-   ============================================ */
 
 .story-section {
     background-color: var(--primary-color);
@@ -231,9 +222,7 @@
     z-index: -1;
 }
 
-/* ============================================
-   CTA SECTION
-   ============================================ */
+
 
 .cta-div {
 
@@ -374,9 +363,8 @@
     background-color: #6b8989;
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
+/*RESPONSIVE DESIGN*/
+
 
 @media (max-width: 768px) {
     .contact-cta {

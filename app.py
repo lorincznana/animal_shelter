@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from functools import wraps
 from models import db
+from dotenv import load_dotenv
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -14,7 +15,9 @@ import os
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'K1c51_NYu5Z1_67$'
+load_dotenv()
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'library.db')}"

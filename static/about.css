@@ -1,7 +1,3 @@
-/* ============================================
-   ABOUT PAGE STYLES
-   ============================================ */
-
 .about {
     padding: 60px 40px;
     background-color: var(--primary-color);
@@ -22,7 +18,6 @@
     text-align: center;
 }
 
-/* Content section */
 .about__content {
     background-color: var(--secondary-color);
     color: white;
@@ -44,7 +39,7 @@
     color: rgba(255, 255, 255, 0.95);
 }
 
-/* Info items */
+
 .about__info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -73,7 +68,7 @@
     color: var(--text-color);
 }
 
-/* Donation section */
+
 .about__donation {
     background-color: var(--secondary-color);
     color: white;
@@ -94,10 +89,6 @@
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.95);
 }
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
 
 @media (max-width: 768px) {
     .about {
