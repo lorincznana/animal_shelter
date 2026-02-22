@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Kezdőlap - {{ shelter_info.name }}{% endblock %}
+
+{% block content %}
+
+<div>
+
+    <div class="support__container">
+
+        <h2>Támogasd a Remény Állatotthont!</h2>
+
+        <p>
+            Csapatunk folyamatosan dolgozik azon, hogy a kóbor és balsorsú kisállatok szerető, törődő otthonra találjanak.
+            Munkánk nélkül ezek az állatok síntérre kerülnének vagy elpusztulnának hanyag gazdájuk kezei alatt.
+        </p>
+
+        <h3>Mire fordítjuk a támogatást?</h3>
+
+        <p>Az adományok által állatorvosi ellátást, gyógyszereket, állateledelt és megfelelő elhelyezést
+            biztosítunk állatainknak. Minden forint, amit felénk fordítasz, közvetlenül egy kisállat életét pozitívan befolyásolja.
+        </p>
+
+        <h3>Hogyan tudsz segíteni?</h3>
+        <p>
+            Az egyik legegyszerűbb módja a támogatásnak, ha személyi jövedelemadód 1%-át az alapítványunknak ajánlod fel.
+            Ez neked nem kerül semmibe sem kerül, nekünk azonban rengeteget jelent!
+        </p>
+        <p class="tax">Adószámunk: {{ shelter_info.donation_account }}</p>
+        <p>
+            Ha szeretnél közvetlenül adományozni, bankszámlaszámunkra is utalhatsz. Minden apró összeg számít!.
+        </p><br>
+        <p class="thanks">
+            Köszönjük, hogy velünk vagy!<br>
+            A Remény Állatotthon csapata
+        </p><br><br>
+    </div>
+</div>
+{% endblock %}

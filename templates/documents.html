@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Dokumentumok{% endblock %}
+
+{% block content %}
+
+<div class="documents-container">
+    <h2>Letölthető dokumentumok</h2>
+    <hr>
+
+    <div class="document-item">
+        <h3>🐕 Kutya örökbefogadási szerződés</h3>
+            <embed src="{{ url_for('static', filename='documents/kutya_orokbefogadas.pdf') }}"
+                   type="application/pdf"
+
+                   height="600px">
+            <a class="document-download-btn"
+               href="{{ url_for('static', filename='documents/kutya_orokbefogadas.pdf') }}"
+               download>
+                ⬇ Letöltés
+            </a>
+    </div>
+    <br><br>
+    <div class="document-item">
+        <h3>🐈 Macska örökbefogadási szerződés</h3>
+            <embed src="{{ url_for('static', filename='documents/macska_orokbefogadas.pdf') }}"
+                   type="application/pdf"
+
+                   height="600px">
+            <a class="document-download-btn"
+               href="{{ url_for('static', filename='documents/macska_orokbefogadas.pdf') }}"
+               download>
+                ⬇ Letöltés
+            </a>
+    </div>
+
+    <div class="document-item">
+        <h3>Ideiglenes befogadási szerződés</h3>
+            <embed src="{{ url_for('static', filename='documents/ideiglenes_befogadasi_szerzodes.pdf') }}"
+                   type="application/pdf"
+
+                   height="600px">
+            <a class="document-download-btn"
+               href="{{ url_for('static', filename='documents/ideiglenes_befogadasi_szerzodes.pdf') }}"
+               download>
+                ⬇ Letöltés
+            </a>
+    </div>
+
+</div>
+{% endblock %}

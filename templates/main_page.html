@@ -59,7 +59,7 @@
             <h3 class="contact-cta__box-title">Támogasson minket <br>adója 1%-ával!</h3>
             <p class="contact-cta__box-text">{{ shelter_info.donation_text }}</p>
             <p class="contact-cta__box-account"><strong>Számlaszám:</strong> {{ shelter_info.donation_account }}</p>
-            <button class="contact-cta__btn">Támogatás</button>
+            <a href="{{ url_for('support_us') }}" class="contact-cta__btn">Támogatás</a>
         </div>
     </div>
 </section>

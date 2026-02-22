@@ -21,15 +21,13 @@
                 <h3>Email</h3>
                 <p>{{ shelter_info.email }}</p>
             </div>
-            <div class="about__info-item">
-                <h3>Adatok</h3>
-                <p>{{ shelter_info.description_number }}</p>
-            </div>
+
         </div>
 
         <div class="about__donation">
             <h2>Támogatás</h2>
-            <p>{{ shelter_info.donation_text }}</p>
+            <p>{{ shelter_info.donation_text }}</p><br><br>
+            <a href="{{ url_for('support_us') }}" class="contact-cta__btn">Támogatás</a>
         </div>
     </div>
 </section>

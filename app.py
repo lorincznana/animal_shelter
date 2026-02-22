@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from functools import wraps
@@ -117,14 +119,15 @@ def add_animal():
 
         for i in range(len(vaccines)):
             if any([vaccines[i], diseases[i], treatments[i], vet_names[i]]):
+                vd = vaccine_dates[i]
                 record = MedicalRecord(
                     animal_id=new_animal.id,
                     vaccine=vaccines[i] or None,
-                    vaccine_date=vaccine_dates[i] or None,
+                    vaccine_date=datetime.strptime(vd, '%Y-%m-%d').date() if vd else None,
                     disease=diseases[i] or None,
                     treatment=treatments[i] or None,
                     vet_name=vet_names[i] or None,
-                    updated_at=datetime.utcnow()
+                    updated_at=datetime.now()
                 )
                 db.session.add(record)
 
@@ -163,10 +166,11 @@ def edit_animal(animal_id):
 
         for i in range(len(vaccines)):
             if any([vaccines[i], diseases[i], treatments[i], vet_names[i]]):
+                vd = vaccine_dates[i]
                 record = MedicalRecord(
                     animal_id=animal.id,
                     vaccine=vaccines[i] or None,
-                    vaccine_date=vaccine_dates[i] or None,
+                    vaccine_date=datetime.strptime(vd, '%Y-%m-%d').date() if vd else None,
                     disease=diseases[i] or None,
                     treatment=treatments[i] or None,
                     vet_name=vet_names[i] or None,
@@ -184,6 +188,18 @@ def edit_animal(animal_id):
 def inject_shelter_info():
     shelter_info = ShelterInfo.query.first()
     return dict(shelter_info=shelter_info)
+
+@app.route('/documents', methods=['GET', 'POST'])
+@login_required
+def documents():
+    return render_template('documents.html');
+
+
+@app.route('/support_us', methods=['GET', 'POST'])
+@login_required
+def support_us():
+    return render_template('support_us.html');
+
 
 @app.route('/about_page', methods=['GET', 'POST'])
 def about_page():
@@ -244,6 +260,8 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
 
 
 if __name__ == "__main__":

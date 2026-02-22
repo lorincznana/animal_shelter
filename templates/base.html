@@ -18,10 +18,11 @@
             <a href="/about_page" class="header__nav-link {% if request.endpoint == 'about_page' %}header__nav-link--active{% endif %}">Rólunk</a>
 
             {% if current_user.is_authenticated %}
+                <a href="{{ url_for('documents') }}" class="header__nav-link {% if request.endpoint == 'documents' %}header__nav-link--active{% endif %}">Dokumentumok</a>
                 <a href="{{ url_for('logout') }}" class="header__cta-btn">Kijelentkezés</a>
             {% else %}
                 <a href="{{ url_for('login') }}" class="header__cta-btn">Bejelentkezés</a>
-                <a href="/register" class="header__cta-btn">Regisztrálj</a>
+                <a href="/register" class="header__cta-btn">Regisztráció</a>
             {% endif %}
         </nav>
     </header>

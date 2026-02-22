@@ -110,3 +110,29 @@ form.fancy-form fieldset {
 }
 
 
+@media (max-width: 768px) {
+    .login-container,
+    .register-container,
+    .animal-container {
+        margin: 30px 20px;
+    }
+
+    form.fancy-form {
+        max-width: 100%;
+        width: 100%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container,
+    .register-container,
+    .animal-container {
+        margin: 20px 10px;
+    }
+
+    form.fancy-form {
+        padding: 15px;
+        min-width: unset;
+    }
+}

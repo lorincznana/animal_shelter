@@ -1,0 +1,47 @@
+.support__container {
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 40px;
+}
+.support__container h2 {
+    margin-bottom: 30px;
+    font-weight: bold;
+
+    text-decoration: underline;
+}
+
+.support__container h3 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+
+    text-decoration: underline;
+}
+
+.tax {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.thanks {
+    font-weight: bold;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .support__container {
+        padding: 0 20px;
+        line-height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .support__container {
+        padding: 0 15px;
+        line-height: 25px;
+    }
+
+    .support__container h2 {
+        font-size: 1.4rem;
+    }
+}

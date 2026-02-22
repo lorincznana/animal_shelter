@@ -8,6 +8,8 @@
 @import url("register.css");
 @import url("animals.css");
 @import url("add-animal.css");
+@import url("documents.css");
+@import url("support.css");
 
 :root {
     --primary-color: #D5E5E5;
@@ -32,4 +34,11 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 1rem;
+    font-size: small;
 }

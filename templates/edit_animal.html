@@ -1,66 +1,70 @@
-{% extends 'main_page.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
 <div class="animal-container"><br>
 <h2>Kisállat szerkesztése: {{ animal.name }}</h2>
 
 <form method="POST" class="fancy-form" action= "{{ url_for('edit_animal', animal_id=animal.id) }}">
-        <label>Név:</label>
-    <input type="text" name="name" required>
+    <label>Név:</label>
+    <input type="text" name="name" value="{{ animal.name }}" required>
 
     <label>Faj:</label>
-    <input type="text" name="species" required>
+    <input type="text" name="species" value="{{ animal.species }}" required>
 
     <label>Fajta:</label>
-    <input type="text" name="breed">
+    <input type="text" name="breed" value="{{ animal.breed or '' }}">
 
     <label>Kor:</label>
-    <input type="number" name="age" min="0">
+    <input type="number" name="age" value="{{ animal.age or '' }}" min="0">
 
     <label>Nem:</label>
     <select name="gender" required>
-        <option value="hím">Hím</option>
-        <option value="kan">Kan</option>
-        <option value="nőstény">Nőstény</option>
-        <option value="szuka">Szuka</option>
+        <option value="hím" {% if animal.gender == 'hím' %}selected{% endif %}>Hím</option>
+        <option value="kan" {% if animal.gender == 'kan' %}selected{% endif %}>Kan</option>
+        <option value="nőstény" {% if animal.gender == 'nőstény' %}selected{% endif %}>Nőstény</option>
+        <option value="szuka" {% if animal.gender == 'szuka' %}selected{% endif %}>Szuka</option>
     </select>
+
     <label>Leírás:</label>
-    <textarea name="description" rows="4" cols="40"></textarea>
+    <textarea name="description" rows="4" cols="40">{{ animal.description or '' }}</textarea>
 
     <label>Kép URL:</label>
-    <input type="text" name="image_url">
-
+    <input type="text" name="image_url" value="{{ animal.image_url or '' }}">
     <h3>Orvosi bejegyzések</h3>
-    {% for record in animal.medical_records %}
-    <div class="medical-record-block">
-        <hr>
-        <input type="hidden" name="record_id[]" value="{{ record.id }}">
+    <div id="medical-records-container">
+        {% for record in animal.medical_records %}
 
-        <label>Vakcina:</label>
-        <input type="text" name="vaccine[]" value="{{ record.vaccine or '' }}">
+            <div class="medical-record-block">
+                <hr>
+                <input type="hidden" name="record_id[]" value="{{ record.id }}">
 
-        <label>Vakcina dátuma:</label>
-        <input type="date" name="vaccine_date[]" value="{{ record.vaccine_date or '' }}">
+                <label>Vakcina:</label>
+                <input type="text" name="vaccine[]" value="{{ record.vaccine or '' }}">
 
-        <label>Betegség:</label>
-        <input type="text" name="disease[]" value="{{ record.disease or '' }}">
+                <label>Vakcina dátuma:</label>
+                <input type="date" name="vaccine_date[]" value="{{ record.vaccine_date or '' }}">
 
-        <label>Kezelés:</label>
-        <input type="text" name="treatment[]" value="{{ record.treatment or '' }}">
+                <label>Betegség:</label>
+                <input type="text" name="disease[]" value="{{ record.disease or '' }}">
 
-        <label>Állatorvos:</label>
-        <input type="text" name="vet_name[]" value="{{ record.vet_name or '' }}">
+                <label>Kezelés:</label>
+                <input type="text" name="treatment[]" value="{{ record.treatment or '' }}">
 
-        <button type="button" onclick="removeRecord(this)">🗑 Bejegyzés törlése</button>
-    </div>
+                <label>Állatorvos:</label>
+                <input type="text" name="vet_name[]" value="{{ record.vet_name or '' }}"><br><br>
+
+                <button type="button" onclick="removeRecord(this)">🗑 Bejegyzés törlése</button><br><br>
+            </div>
+        </div>
     {% endfor %}
-</div>
 
-<button type="button" onclick="addRecord()">➕ Új bejegyzés hozzáadása</button>
-    <button type="submit">Módosítások mentése</button>
+    <a type="button" class="add-animal" onclick="addRecord()">➕ Új bejegyzés hozzáadása</a><br><br>
+    <br><button class="add-animal" type="submit">Módosítások mentése</button>
+
+
 </form>
-</div>
+
 <br>
 <a href="{{ url_for('list_animals') }}">⬅ Vissza a kisállatokhoz</a>
-
+</div>
 {% endblock %}
