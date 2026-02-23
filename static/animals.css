@@ -186,6 +186,13 @@
 }
 
 
+.animal-card__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
 .med-modal {
     display: none;
     position: fixed;
@@ -242,6 +249,106 @@
     border-top: 1px solid #eee;
     padding-top: 1rem;
     margin-top: 1rem;
+}
+
+
+
+.animal-card__content .animal-card__med-info,
+.animal-card__content .animal-card__appointment {
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.animal-card__appointment {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: mintcream;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.animal-card__appointment:hover {
+    background-color: #6b8989;
+}
+
+.appointment-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.appointment-modal.active {
+    display: flex;
+}
+
+.appointment-modal__box {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 450px;
+    width: 90%;
+    position: relative;
+}
+
+.appointment-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.appt-field {
+    margin-bottom: 12px;
+}
+
+.appt-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+.appt-field input,
+.appt-field select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.appt-submit {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.3s;
+}
+
+.appt-submit:hover {
+    background-color: #6b8989;
 }
 
 

@@ -1,4 +1,3 @@
-
 let animalsData = {};
 
 
@@ -10,11 +9,11 @@ function closeMedModal(animalId) {
     document.getElementById('modal-' + animalId).classList.remove('active');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     // Háttérre kattintva bezárja
     document.querySelectorAll('.med-modal').forEach(modal => {
-        modal.addEventListener('click', function(e) {
+        modal.addEventListener('click', function (e) {
             if (e.target === this) {
                 this.classList.remove('active');
             }
@@ -22,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ESC billentyűvel bezárás
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             document.querySelectorAll('.med-modal.active').forEach(modal => {
                 modal.classList.remove('active');
@@ -65,4 +64,20 @@ function removeRecord(btn) {
     btn.closest('.medical-record-block').remove();
 }
 
+window.openAppointmentModal = function(animalId) {
+    document.getElementById('appointment-modal-' + animalId).classList.add('active');
+}
 
+window.closeAppointmentModal = function(animalId) {
+    document.getElementById('appointment-modal-' + animalId).classList.remove('active');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.appointment-modal').forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    });
+});

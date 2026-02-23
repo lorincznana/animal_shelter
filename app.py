@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -25,7 +25,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-from models import Animal, MedicalRecord, Gallery, ShelterInfo, User
+from models import Animal, MedicalRecord, Gallery, ShelterInfo, User, Appointment
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -91,7 +91,8 @@ def list_animals():
     return render_template('animals.html',
                            animals=animals_list,
                            animals_json=animals_json,
-                           shelter_info=shelter_info)
+                           shelter_info=shelter_info,
+                           today=date.today().isoformat())
 
 
 
@@ -264,6 +265,39 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
+@app.route('/animals/<int:animal_id>/appointment', methods=['POST'])
+@login_required
+def book_appointment(animal_id):
+    animal = Animal.query.get_or_404(animal_id)
+
+    date_str = request.form.get('date')
+    time_str = request.form.get('time')
+
+    # Foglalt-e már?
+    existing = Appointment.query.filter_by(
+        animal_id=animal_id,
+        date=datetime.strptime(date_str, '%Y-%m-%d').date(),
+        time=time_str
+    ).first()
+
+    if existing:
+        flash("Ez az időpont már foglalt, kérjük válasszon másikat!", "warning")
+        return redirect(url_for('list_animals'))
+
+    appointment = Appointment(
+        animal_id=animal_id,
+        name=request.form.get('name'),
+        email=request.form.get('email'),
+        phone=request.form.get('phone'),
+        date=datetime.strptime(date_str, '%Y-%m-%d').date(),
+        time=time_str
+    )
+    db.session.add(appointment)
+    db.session.commit()
+
+    flash(f"Időpont lefoglalva! {date_str} {time_str}", "success")
+    return redirect(url_for('list_animals'))
 
 
 

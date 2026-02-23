@@ -50,6 +50,20 @@ class User(db.Model, UserMixin):
     role = db.Column(db.Enum('admin', 'staff', 'volunteer', 'user', name='user_roles'))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+class Appointment(db.Model):
+    __tablename__ = 'appointments'
+    id = db.Column(db.Integer, primary_key=True)
+    animal_id = db.Column(db.Integer, db.ForeignKey('animals.id'))
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(100))
+    phone = db.Column(db.String(50))
+    date = db.Column(db.Date)
+    time = db.Column(db.String(10))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    animal = db.relationship('Animal', backref='appointments')
+
+
 class ShelterInfo(db.Model):
     __tablename__ = 'shelter_info'
     id = db.Column(db.Integer, primary_key=True)
