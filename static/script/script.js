@@ -11,7 +11,7 @@ function closeMedModal(animalId) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Háttérre kattintva bezárja
+
     document.querySelectorAll('.med-modal').forEach(modal => {
         modal.addEventListener('click', function (e) {
             if (e.target === this) {
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ESC billentyűvel bezárás
+
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             document.querySelectorAll('.med-modal.active').forEach(modal => {
@@ -53,7 +53,7 @@ function addRecord() {
         <input type="text" name="treatment[]" value="">
 
         <label>Állatorvos:</label>
-        <input type="text" name="vet_name[]" value="">
+        <input type="text" name="vet_name[]" value=""><br><br>
 
         <button type="button" onclick="removeRecord(this)">🗑 Bejegyzés törlése</button>
     `;

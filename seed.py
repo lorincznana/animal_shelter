@@ -39,16 +39,18 @@ if __name__ == "__main__":
             created_at = date(2015, 1, 1),
         )
 
+        db.session.add(laszlo_user)
+        db.session.commit()
 
 
-        marcsi = Animal(
-            name="Marcsi",
+        mariann = Animal(
+            name="Mariann",
             species="macska",
-            breed="Európai házimacska",
+            breed="Sziámi keverék",
             age=8,
             gender="nőstény",
-            description="Első örökbefogadott kisállatunk.",
-            image_url="https://images.pexels.com/photos/27616905/pexels-photo-27616905.jpeg?_gl=1*1f73vbq*_ga*MjI3MTY3MTM3LjE3NTQ5MzQ2OTI.*_ga_8JE65Q40S6*czE3NjExNDDI0MzYkbzE1JGcwJHQxNzYxMTQyNDM2JGo2MCRsMCRoMA..",
+            description="Hipoallergán cica, allergiásoknak ideális kisállat lehet.",
+            image_url="https://images.pexels.com/photos/545560/pexels-photo-545560.jpeg?_gl=1*s2j1i1*_ga*NTA1NjY0Njg0LjE3NzE2MDg0NTU.*_ga_8JE65Q40S6*czE3NzIyODc0OTYkbzEyJGcxJHQxNzcyMjg3NTQ0JGoxMiRsMCRoMA..",
             medical_records=[
                 MedicalRecord(
                     vaccine="Macska triász",
@@ -62,7 +64,7 @@ if __name__ == "__main__":
                 )
             ]
         )
-        db.session.add(marcsi)
+        db.session.add(mariann)
         db.session.commit()
 
         bodri = Animal(
@@ -115,8 +117,8 @@ if __name__ == "__main__":
 
 
         marcsiGallery = Gallery(
-            animal_id = marcsi.id,
-            image_url = marcsi.image_url
+            animal_id = mariann.id,
+            image_url = mariann.image_url
         )
         db.session.add(marcsiGallery)
         db.session.commit()

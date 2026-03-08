@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from functools import wraps
 from models import db
 from dotenv import load_dotenv
@@ -10,8 +10,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import os
 
-#Ötlet a Kedvesemtől: Lehessen magyar és angol nyelvű is a weboldal.
-#Én: AI chatbot
 
 app = Flask(__name__)
 
@@ -102,7 +100,6 @@ def list_animals():
 def add_animal():
     if request.method == 'POST':
         age = int(request.form.get('age')) if request.form.get('age') else None
-
         new_animal = Animal(
             name=request.form['name'],
             species=request.form['species'],
@@ -114,13 +111,11 @@ def add_animal():
         )
         db.session.add(new_animal)
         db.session.flush()  # hogy meglegyen az ID a medical recordhoz
-
         vaccines      = request.form.getlist('vaccine[]')
         vaccine_dates = request.form.getlist('vaccine_date[]')
         diseases      = request.form.getlist('disease[]')
         treatments    = request.form.getlist('treatment[]')
         vet_names     = request.form.getlist('vet_name[]')
-
         for i in range(len(vaccines)):
             if any([vaccines[i], diseases[i], treatments[i], vet_names[i]]):
                 vd = vaccine_dates[i]
@@ -134,11 +129,9 @@ def add_animal():
                     updated_at=datetime.now()
                 )
                 db.session.add(record)
-
         db.session.commit()
         flash("Kisállat sikeresen hozzáadva!", "success")
         return redirect(url_for('list_animals'))
-
     return render_template('add_animal.html')
 
 
