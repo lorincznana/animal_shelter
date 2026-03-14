@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from functools import wraps
 from models import db
@@ -302,11 +302,27 @@ def chat():
     shelter_info = ShelterInfo.query.first()
     animals = Animal.query.all()
     animal_names = ', '.join([a.name for a in animals])
+    animal_appointments = Appointment.query.all()
+    animal_medical_records = MedicalRecord.query.all()
+    medical_info = ', '.join([
+        f"{mr.animal_id}: {mr.vaccine}, {mr.disease}, {mr.treatment}"
+        for mr in animal_medical_records
+    ])
+
+    appointment_info = ', '.join([
+        f"{a.animal_id}: {a.date} {a.time}, {a.name}"
+        for a in animal_appointments
+    ])
+
 
     system_prompt =  f"""Te a {shelter_info.name} állatmenhely segítő chatbotja vagy.
     Magyarul válaszolj, ha magyarul kérdeznek, angolul, ha angolul kérdeznek, barátságosan és röviden.
-    Jelenleg ezek az állatok várnak gazdira: {animal_names}.
+    Jelenleg ezek az állatok várnak gazdira: {animal_names}. Az információkat az állatokhoz az állatok orvosi előzményeiről itt láthatod: {medical_info}
+    Itt vannak az állatok időpontjai: {appointment_info}
     Segíts az örökbefogadással, időpontfoglalással és a menhely információival kapcsolatos kérdésekben."""
+
+    history = session.get('chat_history', [])
+    history.append({"role": "user", "content": user_message})
 
 
     response = client.messages.create(
@@ -317,8 +333,21 @@ def chat():
             {"role": "user", "content": user_message}
         ]
     )
+    reply = response.content[0].text
 
-    return {'reply': response.content[0].text}
+    history.append({"role": "assistant", "content": reply})
+
+    if len(history) > 20:
+        history = history[-20:]
+
+    session['chat_history'] = history
+
+    return {'reply': reply}
+
+@app.route('/chat/clear', methods=['POST'])
+def clear_chat():
+    session.pop('chat_history', None)
+    return {'status': 'ok'}
 
 
 
