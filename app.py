@@ -6,16 +6,19 @@ from functools import wraps
 from models import db
 from dotenv import load_dotenv
 
+import anthropic
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import os
+
 
 
 app = Flask(__name__)
 
 load_dotenv()
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
+client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'library.db')}"
@@ -291,6 +294,31 @@ def book_appointment(animal_id):
 
     flash(f"Időpont lefoglalva! {date_str} {time_str}", "success")
     return redirect(url_for('list_animals'))
+
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json.get('message')
+    shelter_info = ShelterInfo.query.first()
+    animals = Animal.query.all()
+    animal_names = ', '.join([a.name for a in animals])
+
+    system_prompt =  f"""Te a {shelter_info.name} állatmenhely segítő chatbotja vagy.
+    Magyarul válaszolj, ha magyarul kérdeznek, angolul, ha angolul kérdeznek, barátságosan és röviden.
+    Jelenleg ezek az állatok várnak gazdira: {animal_names}.
+    Segíts az örökbefogadással, időpontfoglalással és a menhely információival kapcsolatos kérdésekben."""
+
+
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens =1024,
+        system = system_prompt,
+        messages = [
+            {"role": "user", "content": user_message}
+        ]
+    )
+
+    return {'reply': response.content[0].text}
 
 
 

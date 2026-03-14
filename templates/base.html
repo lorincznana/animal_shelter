@@ -37,6 +37,28 @@
 
     {% block content %}{% endblock %}
 
+    <button class="chat-toggle" onclick ="toggleChat()">💬</button>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span>🐾Segítség</span>
+            <button onclick="toggleChat()">x</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg chat-msg--bot">
+                Szia! Miben segíthetek?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Írj üzenetet..."
+            onkeypress ="if(event.key=='Enter') sendMessage()">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+
+
+
 
     {% block footer %}
     <footer class="footer">

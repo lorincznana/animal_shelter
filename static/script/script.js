@@ -81,3 +81,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+function toggleChat() {
+    const win = document.getElementById('chatWindow');
+    win.classList.toggle('active');
+}
+
+async function sendMessage() {
+    const input= document.getElementById('chatInput');
+    const messages = document.getElementById('chatMessages');
+
+    const text = input.value.trim();
+    if (!text) return;
+
+    messages.innerHTML += `<div class="chat-msg chat-msg--user">${text}</div>`;
+    input.value='';
+    messages.scrollTop =messages.scrollHeight;
+
+    messages.innerHTML += `<div class="chat-msg chat-msg--bot" id="typing">...</div>`;
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+        const res = await fetch('/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: text})
+        });
+        const data = await res.json();
+        document.getElementById('typing').remove();
+        messages.innerHTML += `<div class="chat-msg chat-msg--bot">${data.reply}</div>`;
+    } catch {
+        document.getElementById('typing').textContent = 'Hiba történt, próbáld újra!';
+    }
+    messages.scrollTop = messages.scrollHeight;
+}

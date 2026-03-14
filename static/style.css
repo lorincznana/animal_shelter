@@ -10,6 +10,7 @@
 @import url("add-animal.css");
 @import url("documents.css");
 @import url("support.css");
+@import url("chat.css");
 
 :root {
     --primary-color: #D5E5E5;
