@@ -5,6 +5,10 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from functools import wraps
 from models import db
 from dotenv import load_dotenv
+import numpy as np
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing import image as keras_image
+import io
 
 import anthropic
 
@@ -23,6 +27,8 @@ client = anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'library.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+cat_dog_model = load_model('cat_dog_model.h5')
 
 db.init_app(app)
 
@@ -262,6 +268,9 @@ def logout():
     return redirect(url_for('login'))
 
 
+
+
+
 @app.route('/animals/<int:animal_id>/appointment', methods=['POST'])
 @login_required
 def book_appointment(animal_id):
@@ -270,7 +279,7 @@ def book_appointment(animal_id):
     date_str = request.form.get('date')
     time_str = request.form.get('time')
 
-    # Foglalt-e már?
+
     existing = Appointment.query.filter_by(
         animal_id=animal_id,
         date=datetime.strptime(date_str, '%Y-%m-%d').date(),
@@ -294,6 +303,23 @@ def book_appointment(animal_id):
 
     flash(f"Időpont lefoglalva! {date_str} {time_str}", "success")
     return redirect(url_for('list_animals'))
+
+
+@app.route('/animals/<int:animal_id>/booked_times', methods=['GET'])
+def booked_times(animal_id):
+    date_str = request.args.get('date')
+    if not date_str:
+        return {'booked': []}
+
+    appointments = Appointment.query.filter_by(
+        animal_id=animal_id,
+        date=datetime.strptime(date_str, '%Y-%m-%d').date()
+    ).all()
+
+    booked = [a.time for a in appointments]
+    return {'booked': booked}
+
+
 
 
 @app.route('/chat', methods=['POST'])
@@ -348,6 +374,31 @@ def chat():
 def clear_chat():
     session.pop('chat_history', None)
     return {'status': 'ok'}
+
+@app.route('/predict_species', methods=['POST'])
+@login_required
+@roles_required('admin', 'staff')
+def predict_species():
+    file = request.files.get('image')
+    if not file:
+        return {'error': 'Nincs fájl'}, 400
+
+    # Kép mentése
+    filename = file.filename
+    upload_folder = os.path.join('static', 'uploads')
+    os.makedirs(upload_folder, exist_ok=True)
+    filepath = os.path.join(upload_folder, filename)
+    file.save(filepath)
+
+    # Predikció
+    img = keras_image.load_img(filepath, target_size=(150, 150))
+    img_array = keras_image.img_to_array(img) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
+    prediction = cat_dog_model.predict(img_array)[0][0]
+    species = 'dog' if prediction > 0.5 else 'cat'
+
+    image_url = f'/static/uploads/{filename}'
+    return {'species': species, 'image_url': image_url}
 
 
 

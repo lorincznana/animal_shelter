@@ -10,7 +10,10 @@
     <input type="text" name="name" required>
 
     <label>Faj:</label>
-    <input type="text" name="species" required>
+    <select name="species" id="species-select" required>
+        <option value="kutya">Kutya</option>
+        <option value="macska">Macska</option>
+    </select>
 
     <label>Fajta:</label>
     <input type="text" name="breed">
@@ -23,13 +26,17 @@
         <option value="hím">Hím</option>
         <option value="kan">Kan</option>
         <option value="nőstény">Nőstény</option>
-        <option value="szuka">Szuka</option>
+        <option value=" szuka">Szuka</option>
     </select>
     <label>Leírás:</label>
     <textarea name="description" rows="4" cols="40"></textarea>
 
-    <label>Kép URL:</label>
-    <input type="text" name="image_url">
+    <div class="form-field">
+    <label>Kép feltöltése:</label>
+    <input type="file" id="image_upload" accept="image/*">
+    <input type="hidden" name="image_url" id="image_url_hidden">
+    <p id="species-prediction" style="margin-top: 8px; font-weight: bold;"></p>
+    </div>
 
     <h3>Orvosi bejegyzések</h3>
     <div id="medical-records-container"></div>

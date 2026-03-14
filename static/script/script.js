@@ -82,6 +82,77 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const imageUpload = document.getElementById('image_upload');
+    if (imageUpload) {
+        imageUpload.addEventListener('change', async function() {
+            const file = this.files[0];
+            if (!file) return;
+
+            const predictionText = document.getElementById('species-prediction');
+            predictionText.textContent = '🔍 Elemzés folyamatban...';
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const res = await fetch('/predict_species', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+
+                document.getElementById('image_url_hidden').value = data.image_url;
+
+                const speciesSelect = document.getElementById('species-select');
+                speciesSelect.value = data.species === 'dog' ? 'kutya' : 'macska';
+
+                const speciesHu = data.species === 'dog' ? '🐶 Kutya' : '🐱 Macska';
+                predictionText.textContent = `✅ Felismert faj: ${speciesHu}`;
+                predictionText.style.color = 'green';
+
+            } catch (err) {
+                predictionText.textContent = '❌ Hiba történt az elemzés során.';
+                predictionText.style.color = 'red';
+            }
+        });
+    }
+});
+const imageUpload = document.getElementById('image_upload');
+if (imageUpload) {
+    imageUpload.addEventListener('change', async function() {
+        const file = this.files[0];
+        if (!file) return;
+
+        const predictionText = document.getElementById('species-prediction');
+        predictionText.textContent = '🔍 Elemzés folyamatban...';
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const res = await fetch('/predict_species', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+
+            document.getElementById('image_url_hidden').value = data.image_url;
+
+            const speciesSelect = document.getElementById('species-select');
+            speciesSelect.value = data.species === 'dog' ? 'kutya' : 'macska';
+
+            const speciesHu = data.species === 'dog' ? 'Kutya' : 'Macska';
+            predictionText.textContent = `Felismert faj: ${speciesHu}`;
+            predictionText.style.color = 'green';
+
+        } catch (err) {
+            predictionText.textContent = 'Hiba történt az elemzés során.';
+            predictionText.style.color = 'red';
+        }
+    });
+}
+
 
 function toggleChat() {
     const win = document.getElementById('chatWindow');
